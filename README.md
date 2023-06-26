@@ -1,6 +1,6 @@
 # Riemannian Metric Learning via Optimal Transport
 
-This repository is the official implementation of [Riemannian Metric Learning via Optimal Transport](https://arxiv.org/abs/2205.09244), which appeared as a poster at ICLR 2023.
+This repository is the official implementation of [Riemannian Metric Learning via Optimal Transport](https://arxiv.org/abs/2205.09244) by Chris Scarvelis and Justin Solomon. This work appeared as a poster at ICLR 2023.
 
 ## Requirements
 
