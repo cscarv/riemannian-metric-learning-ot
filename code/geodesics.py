@@ -52,7 +52,9 @@ def compute_A_geodesic(x_0,
         # Compute kinetic energy loss
         A_at_x = A(x_t)
         v_at_x = torch.unsqueeze(v(t, x_t), dim=2)
-        kinetic_energy = torch.mean(torch.sum(torch.squeeze(v_at_x * (A_at_x @ v_at_x)), dim=1))
+        #kinetic_energy = torch.mean(torch.sum(torch.squeeze(v_at_x * (A_at_x @ v_at_x)), dim=1))
+        kinetic_energy = torch.mean(torch.sum(torch.squeeze(v_at_x * torch.linalg.solve(A_at_x, v_at_x)), dim=1)) # v(t,x(t))^T @ A^-1(x(t)) @ v(t,x(t))
+        #print(kinetic_energy)
         # Compute total loss and backprop
         loss = kinetic_energy + target_penalty
         losses.append(loss.detach().cpu())

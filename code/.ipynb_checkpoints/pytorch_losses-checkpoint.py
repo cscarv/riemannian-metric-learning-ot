@@ -32,6 +32,22 @@ def fro_norm_regularizer(R, rho_0_samples, rho_1_samples, n_samples):
 
     return loss
 
+def non_inv_fro_norm_regularizer(R, rho_0_samples, rho_1_samples, n_samples):
+    """Computes the ||R||_F^2 regularizer given n_samples from distributions rho_0 and rho_1.
+
+    We enforce the regularization at points drawn uniformly from lines connecting rho_0 and rho_1 as
+    in the gradient penalty.
+    """
+
+    t = torch.rand(n_samples, 1, device=device)
+    p = t * rho_0_samples + (1 - t) * rho_1_samples
+
+    R_at_p = R(p)
+
+    loss = torch.sum((torch.linalg.norm(R_at_p, dim=(1, 2)) ** 2))
+
+    return loss
+
 def inv_nuc_norm_regularizer(R, rho_0_samples, rho_1_samples, n_samples):
     """Computes the ||R^-1||_nuc regularizer given n_samples from distributions rho_0 and rho_1.
 

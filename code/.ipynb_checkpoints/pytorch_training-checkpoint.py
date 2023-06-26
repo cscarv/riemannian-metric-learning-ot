@@ -794,10 +794,13 @@ def train_synthetic_R(
                 rho_0_samples = rho_0.sample(samples_per_batch)
                 rho_1_samples = rho_1.sample(samples_per_batch)
                 phi = phi_list[counter]
-                loss += fro_reg_strength * losses.fro_norm_regularizer(
+                #loss += fro_reg_strength * losses.fro_norm_regularizer(
+                #    R, rho_0_samples, rho_1_samples, n_samples
+                #)
+                loss += fro_reg_strength * losses.non_inv_fro_norm_regularizer(
                     R, rho_0_samples, rho_1_samples, n_samples
                 )
-                loss += gp_strength * losses.gradient_penalty(
+                loss -= gp_strength * losses.gradient_penalty( # was +=
                     phi, R, rho_0_samples, rho_1_samples, n_samples
                 )
                 counter += 1
@@ -1023,10 +1026,10 @@ def train_wot_R(
             loss += identity_reg_strength * losses.identity_regularizer(
                 R, radius, n_samples
             )
-            loss += fro_reg_strength * losses.fro_norm_regularizer(
+            loss += fro_reg_strength * losses.non_inv_fro_norm_regularizer( # different regularizer now
                 R, rho_0_samples, rho_1_samples, n_samples
             )
-            loss += gp_strength * losses.gradient_penalty(
+            loss -= gp_strength * losses.gradient_penalty( # note negative sign on GP
                 phi, R, rho_0_samples, rho_1_samples, n_samples
             )
         loss.backward()

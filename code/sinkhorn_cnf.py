@@ -161,7 +161,9 @@ def sinkhorn_cnf(base_sampler, # Should have a sample() method that behaves like
             else:
                 A_at_x = A(x_t_unrolled)
             v_at_x = torch.unsqueeze(v(times, x_t_unrolled), dim=2)
-            kinetic_energy = torch.mean(torch.sum(torch.squeeze(v_at_x * (A_at_x @ v_at_x)), dim=1)) # v(t,x(t))^T @ A(x(t)) @ v(t,x(t))
+            #print(A_at_x.shape)
+            #kinetic_energy = torch.mean(torch.sum(torch.squeeze(v_at_x * (A_at_x @ v_at_x)), dim=1)) # v(t,x(t))^T @ A(x(t)) @ v(t,x(t))
+            kinetic_energy = torch.mean(torch.sum(torch.squeeze(v_at_x * torch.linalg.solve(A_at_x, v_at_x)), dim=1)) # v(t,x(t))^T @ A^-1(x(t)) @ v(t,x(t))
         else:
             kinetic_energy = torch.tensor(0, dtype=torch.float64, device=device)
         

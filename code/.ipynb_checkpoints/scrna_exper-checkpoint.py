@@ -39,7 +39,7 @@ def run_experiment(rho_list, json_fname, k, A_model, use_A):
     step_size = 1/60
     space_dims = 2
     if use_A:
-        lambd = 1e1
+        lambd = 1e-1 # NOTE CHANGE TO 1e-1 FOR IDENTITY MATRIX EXPERIMENT, 1e1 for old A experiment
     else:
         lambd = 0
     lr = 1e-3
@@ -68,7 +68,7 @@ def run_experiment(rho_list, json_fname, k, A_model, use_A):
                 )
         # Save the trained model
         if use_A:
-            fname = "trained_v_with_A_lambd_1e1_use_every_" + str(k) + "_i_is_" + str(i) + ".pt"
+            fname = "trained_v_with_A_lambd_1em1_use_every_" + str(k) + "_i_is_" + str(i) + ".pt"
             fpath = "trained_models/scrna_vel_fields/with_A/" + fname
             fpath = os.path.abspath(os.path.join(os.path.dirname(os.path.dirname(__file__)), fpath))
             torch.save(trained_v.state_dict(), fpath)
@@ -102,7 +102,7 @@ def run_final_tp_experiment(rho_list, json_fname, k, A_model, use_A):
     step_size = 1/60
     space_dims = 2
     if use_A:
-        lambd = 1e1
+        lambd = 1e-1
     else:
         lambd = 0
     lr = 1e-3
@@ -130,7 +130,7 @@ def run_final_tp_experiment(rho_list, json_fname, k, A_model, use_A):
             )
     # Save the trained model
     if use_A:
-        fname = "trained_v_with_A_lambd_1e1_use_every_" + str(k) + "_final_tps.pt"
+        fname = "trained_v_with_A_lambd_1em1_use_every_" + str(k) + "_final_tps.pt"
         fpath = "trained_models/scrna_vel_fields/with_A/" + fname
         fpath = os.path.abspath(os.path.join(os.path.dirname(os.path.dirname(__file__)), fpath))
         torch.save(trained_v.state_dict(), fpath)
@@ -164,7 +164,7 @@ def compute_avg_W1_samples_all_times(rho_list, k, use_A):
     for i in range(len(targets) - 1):
         # Load the velocity field
         if use_A:
-            fname = "trained_v_with_A_lambd_1e1_use_every_" + str(k) + "_i_is_" + str(i) + ".pt"
+            fname = "trained_v_with_A_lambd_1em1_use_every_" + str(k) + "_i_is_" + str(i) + ".pt"
             fpath = "trained_models/scrna_vel_fields/with_A/" + fname
             fpath = os.path.abspath(os.path.join(os.path.dirname(os.path.dirname(__file__)), fpath))
         else:
@@ -200,10 +200,10 @@ def compute_avg_W1_samples_all_times(rho_list, k, use_A):
     
     # Now handle final tps
     # Load the velocity field
-    # Skip if k=2 since there are no final tps in this case
-    if k > 2:
+    # Skip if k=2 and k=19 since there are no final tps in this case
+    if k > 2 and k < 19:
         if use_A:
-            fname = "trained_v_with_A_lambd_1e1_use_every_" + str(k) + "_final_tps.pt"
+            fname = "trained_v_with_A_lambd_1em1_use_every_" + str(k) + "_final_tps.pt"
             fpath = "trained_models/scrna_vel_fields/with_A/" + fname
             fpath = os.path.abspath(os.path.join(os.path.dirname(os.path.dirname(__file__)), fpath))
         else:
@@ -263,7 +263,7 @@ def visualize_advected_samples_all_times(ax, rho_list, k, use_A):
     for i in range(len(targets) - 1):
         # Load the velocity field
         if use_A:
-            fname = "trained_v_with_A_lambd_1e1_use_every_" + str(k) + "_i_is_" + str(i) + ".pt"
+            fname = "trained_v_with_A_lambd_1em1_use_every_" + str(k) + "_i_is_" + str(i) + ".pt"
             fpath = "trained_models/scrna_vel_fields/with_A/" + fname
             fpath = os.path.abspath(os.path.join(os.path.dirname(os.path.dirname(__file__)), fpath))
         else:
@@ -305,10 +305,10 @@ def visualize_advected_samples_all_times(ax, rho_list, k, use_A):
         
     # Now handle final tps
     # Load the velocity field
-    # Skip if k=2 since there are no final tps in this case
-    if k > 2:
+    # Skip if k=2 and k=19 since there are no final tps in this case
+    if k > 2 and k < 19:
         if use_A:
-            fname = "trained_v_with_A_lambd_1e1_use_every_" + str(k) + "_final_tps.pt"
+            fname = "trained_v_with_A_lambd_1em1_use_every_" + str(k) + "_final_tps.pt"
             fpath = "trained_models/scrna_vel_fields/with_A/" + fname
             fpath = os.path.abspath(os.path.join(os.path.dirname(os.path.dirname(__file__)), fpath))
         else:
